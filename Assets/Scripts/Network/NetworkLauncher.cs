@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Fusion;
+using UnityEngine.SceneManagement;
 public class NetworkLauncher : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private NetworkRunner _runner;
+    [SerializeField] private int lobbySceneIndex;
+    private void Start()
     {
-        
+        StartGame(GameMode.AutoHostOrClient);
     }
-
-    // Update is called once per frame
-    void Update()
+    async void StartGame(GameMode mode)
     {
-        
+        // Create the Fusion runner and let it know that we will be providing user input
+        _runner = gameObject.AddComponent<NetworkRunner>();
+        _runner.ProvideInput = true;
+
+        // Start or join (depends on gamemode) a session with a specific name
+        await _runner.StartGame(new StartGameArgs()
+        {
+            GameMode = mode,
+            SessionName = "TestRoom",
+            Scene = lobbySceneIndex,
+            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
+        });
     }
 }
