@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class CharacterSpawner : MonoBehaviour
 {
-    [SerializeField] private NetworkHandler networkHandler;
     
+
 }

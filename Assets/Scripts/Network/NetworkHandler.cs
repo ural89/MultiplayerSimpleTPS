@@ -24,6 +24,7 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
+            Debug.Log("Player joined");
             playerJoinCallback?.Invoke(runner, player);
             /* var characterClone = runner.Spawn(character, Vector3.zero, Quaternion.identity, player);
             characters.Add(player, characterClone);//TODO: characterSpawner script will spawn after game starts. Not here! */
@@ -38,7 +39,9 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
    
         }
     }
-    public void OnConnectedToServer(NetworkRunner runner) { }
+    public void OnConnectedToServer(NetworkRunner runner) {
+        Debug.Log("connected server");
+     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
 
