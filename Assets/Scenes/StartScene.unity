@@ -331,7 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540d520c6ca701e42aac54c8429b8d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 4988352026353627367, guid: cb0eb05917e127a428f54ace955b1797, type: 3}
 --- !u!114 &1546954411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +370,7 @@ GameObject:
   - component: {fileID: 1706869112}
   - component: {fileID: 1706869111}
   m_Layer: 0
-  m_Name: NetworkLauncher
+  m_Name: GameLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

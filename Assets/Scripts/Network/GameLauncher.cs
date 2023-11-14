@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using UnityEngine.SceneManagement;
-public class NetworkLauncher : MonoBehaviour
+public class GameLauncher : MonoBehaviour
 {
     private NetworkRunner _runner;
     [SerializeField] private int lobbySceneIndex;
