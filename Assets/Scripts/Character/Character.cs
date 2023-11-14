@@ -6,14 +6,18 @@ using UnityEngine;
 public class Character : NetworkBehaviour
 {
     private float moveSpeed = 3f;
-    private Rigidbody rb;
-    private void Awake()
+
+    private NetworkCharacterControllerPrototype cc;
+
+    public override void Spawned()
     {
-        rb = GetComponent<Rigidbody>();
+
+        cc = GetComponent<NetworkCharacterControllerPrototype>();
+     
     }
     public override void FixedUpdateNetwork()
     {
-        rb.MovePosition(transform.position + Vector3.forward * Runner.DeltaTime * moveSpeed);
+        cc.Move(transform.forward);
     }
     public void Despawn()
     {
