@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
 {
+    [SerializeField] private GameObject head;
     private float moveSpeed = 3f;
     private PlayerInputHandler playerInputHandler;
     private NetworkHandler networkHandler;
@@ -44,6 +45,10 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
             {
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(networkInputData.LookDirection.x, 0, networkInputData.LookDirection.y), Vector3.up);
                 kcc.SetLookRotation(lookRotation);
+            }
+            if(networkInputData.IsFirePressed)
+            {
+                head.SetActive(!head.activeSelf);
             }
 
         }
