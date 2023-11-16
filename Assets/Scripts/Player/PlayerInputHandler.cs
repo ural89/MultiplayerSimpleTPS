@@ -14,7 +14,7 @@ public class PlayerInputHandler : MonoBehaviour
         moveInputVector.x = Input.GetAxis("Horizontal");
         moveInputVector.y = Input.GetAxis("Vertical");
 
-        //Jump
+     
         if (Input.GetButtonDown("Jump"))
             isFireButtonPressed = true;
     }

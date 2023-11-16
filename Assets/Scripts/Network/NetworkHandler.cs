@@ -51,7 +51,7 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
         {
     
             var characterClone = runner.Spawn(characterPrefab, Vector3.up * 2, Quaternion.identity, player);
-            characters.Add(player, characterClone);
+           characters.Add(player, characterClone);
     
             Debug.Log("Player joined");
             PlayerJoined?.Invoke(runner, player);
@@ -63,6 +63,7 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsServer)
         {
             runner.Despawn(characters[player].Object, false);
+           characters.Remove(player);
             PlayerLeft?.Invoke(runner, player);
 
         }
