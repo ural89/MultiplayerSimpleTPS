@@ -1,23 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using Fusion.KCC;
 using UnityEngine;
 
 public class Character : NetworkBehaviour
 {
     private float moveSpeed = 3f;
 
-    private NetworkCharacterControllerPrototype cc;
+    private KCC kcc;
 
     public override void Spawned()
     {
 
-        cc = GetComponent<NetworkCharacterControllerPrototype>();
+        kcc = GetComponent<KCC>();
      
     }
     public override void FixedUpdateNetwork()
     {
-        cc.Move(transform.forward);
+       
     }
     public void Despawn()
     {
