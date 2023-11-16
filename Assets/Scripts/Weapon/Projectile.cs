@@ -22,7 +22,7 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-
+        transform.position += 
     }
 
     public void PredictedDespawn()
