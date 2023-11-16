@@ -9,7 +9,7 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
 {
     [SerializeField] private GameObject head;
     
-    [Networked(OnChanged = nameof(OnHeadActivationChanged))] private NetworkBool isActive { get; set; }
+    [Networked(OnChanged = nameof(OnHeadActivationChanged))] private NetworkBool isActive { get; set; } = true;
 
     private static void OnHeadActivationChanged(Changed<PlayerMovementHandler> changed)
     {
