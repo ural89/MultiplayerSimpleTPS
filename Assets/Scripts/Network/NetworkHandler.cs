@@ -29,10 +29,10 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
 
 
 
-  
+
     private void NetworkHandler_OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        
+
     }
     public void AddPlayerConnectionCallbacks(Action<NetworkRunner, PlayerRef> OnPlayerJoin, Action<NetworkRunner, PlayerRef> OnPlayerLeft)
     {
@@ -49,11 +49,11 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-    
+
             var characterClone = runner.Spawn(characterPrefab, Vector3.up * 2, Quaternion.identity, player);
-           characters.Add(player, characterClone);
-    
-            Debug.Log("Player joined");
+            characters.Add(player, characterClone);
+
+            Debug.Log("Player joined!");
             PlayerJoined?.Invoke(runner, player);
         }
     }
@@ -63,14 +63,15 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.IsServer)
         {
             runner.Despawn(characters[player].Object, false);
-           characters.Remove(player);
+            characters.Remove(player);
+            Debug.Log("Player left!");
             PlayerLeft?.Invoke(runner, player);
 
         }
     }
     void INetworkRunnerCallbacks.OnInput(NetworkRunner runner, Fusion.NetworkInput input)
     {
-        
+
         if (Input != null)
         {
             Input(runner, input);
