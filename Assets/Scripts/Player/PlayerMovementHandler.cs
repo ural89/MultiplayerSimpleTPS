@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
@@ -7,6 +8,14 @@ using UnityEngine;
 public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
 {
     [SerializeField] private GameObject head;
+    
+    [Networked(OnChanged = nameof(OnHeadActivationChanged))] private NetworkBool isActive { get; set; }
+
+    private static void OnHeadActivationChanged(Changed<PlayerMovementHandler> changed)
+    {
+        changed.Behaviour.head.SetActive(changed.Behaviour.isActive);
+    }
+
     private float moveSpeed = 3f;
     private PlayerInputHandler playerInputHandler;
     private NetworkHandler networkHandler;
@@ -46,9 +55,10 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(networkInputData.LookDirection.x, 0, networkInputData.LookDirection.y), Vector3.up);
                 kcc.SetLookRotation(lookRotation);
             }
-            if(networkInputData.IsFirePressed)
+            if (networkInputData.IsFirePressed)
             {
-                head.SetActive(!head.activeSelf);
+                isActive = !isActive;
+                
             }
 
         }
@@ -59,7 +69,6 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
         if (Object.InputAuthority == player)
         {
             networkHandler.Input -= NetworkHandler_Input;
-            Debug.LogWarning("player input deactivated");
         }
 
 
