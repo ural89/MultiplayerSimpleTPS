@@ -81,12 +81,12 @@ namespace Fusion.KCC
 
 		public static void GetPositionAndRotation(Transform transform, out Vector3 position, out Quaternion rotation)
 		{
-/* #if UNITY_2021_3_OR_NEWER
+#if UNITY_2021_3_OR_NEWER
 			transform.GetPositionAndRotation(out position, out rotation);
-#else */
+#else
 			position = transform.position;
 			rotation = transform.rotation;
-/* #endif */
+#endif
 		}
 	}
 }
