@@ -33,11 +33,11 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
     public void Init(Vector3 firePosition, Vector3 velocity)
     {
         var data = _data;
-       // lifeTimer = TickTimer.CreateFromSeconds(Runner, lifeDurationSec);
+        // lifeTimer = TickTimer.CreateFromSeconds(Runner, lifeDurationSec);
         data.FireTick = Runner.Tick;
         data.FireVelocity = velocity;
         data.FirePosition = firePosition;
-        if(lifeDurationSec > 0f)
+        if (lifeDurationSec > 0f)
         {
             data.LifeCooldown = TickTimer.CreateFromSeconds(Runner, lifeDurationSec);
         }
@@ -46,8 +46,13 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
     }
     public override void Render()
     {
+
+        bool isProxy = IsProxy == true && Object.IsPredictedSpawn == false;
+        float renderTime = isProxy == true ? Runner.InterpolationRenderTime : Runner.SimulationRenderTime;
+        float floatTick = renderTime / Runner.DeltaTime;
+
         var data = _data;
-        transform.position = GetMovePosition(Runner.Tick, data);
+        transform.position = GetMovePosition(floatTick, data);
     }
     public override void FixedUpdateNetwork()
     {
@@ -61,7 +66,7 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
     private void MoveProjectile()
     {
         var data = _data;
-        if(data.LifeCooldown.Expired(Runner))
+        if (data.LifeCooldown.Expired(Runner))
         {
             Runner.Despawn(Object);
             return;
@@ -74,7 +79,6 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
         if (Runner.LagCompensation.Raycast(previousPosition, direction, direction.magnitude, Object.InputAuthority,
                  out var hit, hitMask, HitOptions.IncludePhysX | HitOptions.IgnoreInputAuthority))
         {
-            Debug.Log(hit.GameObject);
             Runner.Despawn(Object, true);
         }
     }
@@ -88,6 +92,7 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
     {
 
     }
+
     private Vector3 GetMovePosition(float currentTick, FireData data)
     {
         float time = (currentTick - data.FireTick) * Runner.DeltaTime;

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Fusion;
 using Fusion.KCC;
 using UnityEngine;
@@ -50,7 +47,7 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
         {
 
             kcc.SetInputDirection(new Vector3(networkInputData.MoveDirection.x, 0, networkInputData.MoveDirection.y));
-            if (!Vector3.Equals(networkInputData.LookDirection, Vector3.zero))
+            if (!networkInputData.LookDirection.AlmostEquals(Vector3.zero))
             {
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(networkInputData.LookDirection.x, 0, networkInputData.LookDirection.y), Vector3.up);
                 kcc.SetLookRotation(lookRotation);
