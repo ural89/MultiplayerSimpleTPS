@@ -367,6 +367,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  pickupLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   weapon: {fileID: 3557707422673637127}
 --- !u!114 &95
 MonoBehaviour:

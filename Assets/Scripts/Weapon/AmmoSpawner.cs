@@ -8,7 +8,7 @@ public class AmmoSpawner : NetworkBehaviour
     [Networked] private TickTimer spawnTime { get; set; }
     [SerializeField] private AmmoPickup ammoPickupPrefab;
     [SerializeField] private float minSpawnX, maxSpawnX, minSpawnZ, maxSpawnZ;
-    private float spawnTimeDuration = 1f;
+    [SerializeField] private float spawnTimeDuration = 1f;
     public override void Spawned()
     {
         if (Object.HasStateAuthority)
@@ -18,7 +18,7 @@ public class AmmoSpawner : NetworkBehaviour
     {
         if (Object.HasStateAuthority)
         {
-            if(spawnTime.ExpiredOrNotRunning(Runner))
+            if (spawnTime.ExpiredOrNotRunning(Runner))
             {
                 SpawnAmmo();
             }
@@ -29,6 +29,6 @@ public class AmmoSpawner : NetworkBehaviour
     {
         spawnTime = TickTimer.CreateFromSeconds(Runner, spawnTimeDuration);
         Runner.Spawn(ammoPickupPrefab, new Vector3(Random.Range(minSpawnX, maxSpawnX), 1, Random.Range(minSpawnZ, maxSpawnZ)), Quaternion.identity);
-        Debug.Log("Ammo spawned");
+       
     }
 }
