@@ -18,7 +18,7 @@ public class AmmoPickup : NetworkBehaviour
     public void OnPicked(Player player)
     {
         if (HasPicked) return;
-        // if(player.Object.HasStateAuthority)
+         //if(player.Object.HasStateAuthority)
             _renderer.enabled = false;
         HasPicked = true;
 

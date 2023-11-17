@@ -36,7 +36,7 @@ public class Player : NetworkBehaviour
     }
     private void CheckForAmmoPickup()
     {
-        if (Object.HasInputAuthority)
+        //if (Object.HasInputAuthority)
         {
             Collider[] results = new Collider[1];
             if (Runner.GetPhysicsScene().OverlapSphere(transform.position, pickupRadius, results, pickupLayerMask, QueryTriggerInteraction.Collide) > 0)
