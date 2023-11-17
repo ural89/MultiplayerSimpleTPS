@@ -5,9 +5,9 @@ public class Weapon : NetworkBehaviour
 {
     [SerializeField] private Transform projectileSlot;
     [SerializeField] private Projectile projectile;
-    public void Fire(NetworkRunner runner, PlayerRef owner)
+    public void Fire(PlayerRef owner)
     {
-        NetworkObjectPredictionKey key = new NetworkObjectPredictionKey { Byte0 = (byte)owner.RawEncoded, Byte1 = (byte)runner.Simulation.Tick };
+        NetworkObjectPredictionKey key = new NetworkObjectPredictionKey { Byte0 = (byte)owner.RawEncoded, Byte1 = (byte)Runner.Simulation.Tick };
         
         void InitProjectile(NetworkRunner r, NetworkObject o)
         {

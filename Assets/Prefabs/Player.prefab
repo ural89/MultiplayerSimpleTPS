@@ -230,7 +230,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1029249225945322823, guid: 9d631177f90b9ba49bc00a53b3478fa2, type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -1029249225945322823, guid: 9d631177f90b9ba49bc00a53b3478fa2, type: 3}
       propertyPath: NetworkedBehaviours.Array.data[1]
@@ -240,6 +240,10 @@ PrefabInstance:
       propertyPath: NetworkedBehaviours.Array.data[2]
       value: 
       objectReference: {fileID: 93}
+    - target: {fileID: -1029249225945322823, guid: 9d631177f90b9ba49bc00a53b3478fa2, type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[3]
+      value: 
+      objectReference: {fileID: -2271577617041822433}
     - target: {fileID: -1029249225945322823, guid: 9d631177f90b9ba49bc00a53b3478fa2, type: 3}
       propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
       value: -8881546388413272764
@@ -318,6 +322,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3467749930922983645, guid: 9d631177f90b9ba49bc00a53b3478fa2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 100}
+    - targetCorrespondingSourceObject: {fileID: 3467749930922983645, guid: 9d631177f90b9ba49bc00a53b3478fa2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2271577617041822433}
   m_SourcePrefab: {fileID: 100100000, guid: 9d631177f90b9ba49bc00a53b3478fa2, type: 3}
 --- !u!1 &2872214321742840508 stripped
 GameObject:
@@ -337,7 +344,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _renderer: {fileID: 57}
 --- !u!114 &95
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +383,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 11.63, z: -12.59}
+--- !u!114 &-2271577617041822433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2872214321742840508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 039ea9079534b2045b8818cc690616ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  _renderer: {fileID: 57}
 --- !u!4 &9115712355631713339 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7584712212755254874, guid: 9d631177f90b9ba49bc00a53b3478fa2, type: 3}
