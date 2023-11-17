@@ -36,7 +36,7 @@ public class Player : NetworkBehaviour
     }
     private void CheckForAmmoPickup()
     {
-        //if (Object.HasInputAuthority)
+        if (Object.HasStateAuthority)
         {
             Collider[] results = new Collider[1];
             if (Runner.GetPhysicsScene().OverlapSphere(transform.position, pickupRadius, results, pickupLayerMask, QueryTriggerInteraction.Collide) > 0)
@@ -46,8 +46,8 @@ public class Player : NetworkBehaviour
                 var ammoPickup = results[0].GetComponent<AmmoPickup>();
                 if (ammoPickup != null)
                 {
-                    ammoPickup.OnPicked(this);
-                    // weapon.AddAmmo(5);
+                    ammoPickup.RPC_OnPicked(this);
+                    weapon.AddAmmo(1);
                 }
             }
         }
