@@ -90,7 +90,7 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
 
     public void PredictedDespawnFailed()
     {
-
+       
     }
 
     private Vector3 GetMovePosition(float currentTick, FireData data)
