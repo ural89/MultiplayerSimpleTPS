@@ -36,7 +36,7 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
 
     }
 
-    private void NetworkHandler_Input(NetworkRunner runner, NetworkInput input)
+    private void NetworkHandler_Input(NetworkRunner runner, NetworkInput input) //TODO: carry this to network input handler or somehting like that
     {
         if (Object.HasInputAuthority)
         {
