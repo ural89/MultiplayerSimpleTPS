@@ -79,6 +79,8 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
         if (Runner.LagCompensation.Raycast(previousPosition, direction, direction.magnitude, Object.InputAuthority,
                  out var hit, hitMask, HitOptions.IncludePhysX | HitOptions.IgnoreInputAuthority))
         {
+            var health = hit.GameObject.GetComponent<Health>();
+            if(health != null) health.TakeDamage(5f);
             Runner.Despawn(Object, true);
         }
     }

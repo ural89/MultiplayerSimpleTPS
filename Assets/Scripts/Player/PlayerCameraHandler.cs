@@ -12,7 +12,7 @@ public class PlayerCameraHandler : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (isWorking)
+        if (isWorking && Player.Local != null)
             Camera.main.transform.position = Player.Local.transform.position + offset;
     }
 

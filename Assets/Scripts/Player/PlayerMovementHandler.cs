@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
 {
     [SerializeField] private GameObject head;
-    
+
     [Networked(OnChanged = nameof(OnHeadActivationChanged))] private NetworkBool isActive { get; set; } = true;
 
     private static void OnHeadActivationChanged(Changed<PlayerMovementHandler> changed)
@@ -35,10 +35,11 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
 
     private void NetworkHandler_Input(NetworkRunner runner, NetworkInput input) //TODO: carry this to network input handler or somehting like that
     {
-        if (Object.HasInputAuthority)
-        {
-            input.Set(playerInputHandler.GetNetworkInputData());
-        }
+        if (Object != null)
+            if (Object.HasInputAuthority)
+            {
+                input.Set(playerInputHandler.GetNetworkInputData());
+            }
     }
 
     public override void FixedUpdateNetwork()
@@ -55,7 +56,7 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
             if (networkInputData.IsFirePressed)
             {
                 isActive = !isActive;
-                
+
             }
 
         }
