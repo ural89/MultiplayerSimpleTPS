@@ -10,7 +10,7 @@ public class PlayerMovementHandler : NetworkBehaviour, IPlayerLeft
 
     private static void OnHeadActivationChanged(Changed<PlayerMovementHandler> changed)
     {
-        changed.Behaviour.head.SetActive(changed.Behaviour.isActive);
+        //changed.Behaviour.head.SetActive(changed.Behaviour.isActive);
     }
 
     private float moveSpeed = 3f;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 public class Player : NetworkBehaviour
@@ -8,12 +9,12 @@ public class Player : NetworkBehaviour
     [SerializeField] private Weapon weapon;
     public static Player Local { get; private set; }
     private PlayerCameraHandler cameraHandler;
-
+    private AmmoAmount ammoAmount;
     private float pickupRadius = 2f;
 
     private void Awake()
     {
-
+        ammoAmount = GetComponent<AmmoAmount>();
         cameraHandler = GetComponent<PlayerCameraHandler>();
     }
 
@@ -38,16 +39,17 @@ public class Player : NetworkBehaviour
     {
         if (Object.HasStateAuthority)
         {
-            Collider[] results = new Collider[1];
-            if (Runner.GetPhysicsScene().OverlapSphere(transform.position, pickupRadius, results, pickupLayerMask, QueryTriggerInteraction.Collide) > 0)
+            
+            List<LagCompensatedHit> lagCompensatedHits = new();
+            if (Runner.LagCompensation.OverlapSphere(transform.position, pickupRadius, Object.InputAuthority, lagCompensatedHits, pickupLayerMask, HitOptions.IncludePhysX) > 0)
             {
 
 
-                var ammoPickup = results[0].GetComponent<AmmoPickup>();
+                var ammoPickup = lagCompensatedHits[0].GameObject.GetComponent<AmmoPickup>();
                 if (ammoPickup != null)
                 {
                     ammoPickup.OnPicked(this);
-                    weapon.AddAmmo(1);
+                    ammoAmount.AddAmmo(1);
                 }
             }
         }
