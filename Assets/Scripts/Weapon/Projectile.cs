@@ -12,7 +12,7 @@ public struct FireData : INetworkStruct
     public Vector3 HitPosition;
 }
 
-public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
+public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
 {
     [SerializeField] private LayerMask hitMask;
     [Networked] public TickTimer networkedLifeTimer { get; set; }
@@ -83,15 +83,7 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
         }
     }
 
-    public void PredictedDespawn()
-    {
-        Spawned();
-    }
-
-    public void PredictedDespawnFailed()
-    {
-
-    }
+  
 
     private Vector3 GetMovePosition(float currentTick, FireData data)
     {
@@ -101,5 +93,30 @@ public class Projectile : NetworkBehaviour, IPredictedDespawnBehaviour
             return data.FirePosition;
 
         return data.FirePosition + data.FireVelocity * time;
+    }
+
+    public void PredictedSpawnSpawned()
+    {
+        
+    }
+
+    public void PredictedSpawnUpdate()
+    {
+        
+    }
+
+    public void PredictedSpawnRender()
+    {
+        Render();
+    }
+
+    public void PredictedSpawnFailed()
+    {
+        
+    }
+
+    public void PredictedSpawnSuccess()
+    {
+        
     }
 }
