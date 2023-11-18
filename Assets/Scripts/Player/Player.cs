@@ -46,7 +46,7 @@ public class Player : NetworkBehaviour
                 var ammoPickup = results[0].GetComponent<AmmoPickup>();
                 if (ammoPickup != null)
                 {
-                    ammoPickup.RPC_OnPicked(this);
+                    ammoPickup.OnPicked(this);
                     weapon.AddAmmo(1);
                 }
             }
