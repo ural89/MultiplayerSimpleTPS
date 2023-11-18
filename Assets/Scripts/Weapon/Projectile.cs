@@ -46,7 +46,7 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
     }
     public override void Render()
     {
-        Debug.Log(Object.IsProxy);
+    
         bool isProxy = IsProxy == true && Object.IsPredictedSpawn == false;
         float renderTime = isProxy == true ? Runner.InterpolationRenderTime : Runner.SimulationRenderTime;
         float floatTick = renderTime / Runner.DeltaTime;
