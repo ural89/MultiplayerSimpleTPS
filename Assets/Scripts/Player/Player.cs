@@ -11,7 +11,7 @@ public class Player : NetworkBehaviour
     private PlayerCameraHandler cameraHandler;
     private AmmoAmount ammoAmount;
     private float pickupRadius = 2f;
-
+   
     private void Awake()
     {
         ammoAmount = GetComponent<AmmoAmount>();
@@ -26,7 +26,9 @@ public class Player : NetworkBehaviour
             Local = this;
 
         }
+        
 
+        GameManager.Instance.OnPlayerSpawn(Object.InputAuthority);
         cameraHandler.UpdateCameraSettings();
     }
     public override void FixedUpdateNetwork()
@@ -39,7 +41,7 @@ public class Player : NetworkBehaviour
     {
         if (Object.HasStateAuthority)
         {
-            
+
             List<LagCompensatedHit> lagCompensatedHits = new();
             if (Runner.LagCompensation.OverlapSphere(transform.position, pickupRadius, Object.InputAuthority, lagCompensatedHits, pickupLayerMask, HitOptions.IncludePhysX) > 0)
             {
@@ -64,5 +66,9 @@ public class Player : NetworkBehaviour
                 weapon.Fire(Object.InputAuthority);
             }
         }
+    }
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        GameManager.Instance.OnPlayerDie(Object.InputAuthority);
     }
 }

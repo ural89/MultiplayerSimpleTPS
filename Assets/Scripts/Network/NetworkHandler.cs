@@ -27,7 +27,7 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private Player characterPrefab;
     private Dictionary<PlayerRef, Player> characters = new();
 
-
+   
 
 
     private void NetworkHandler_OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -52,7 +52,7 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
 
             var characterClone = runner.Spawn(characterPrefab, Vector3.up * 2, Quaternion.identity, player);
             characters.Add(player, characterClone);
-
+         
             Debug.Log("Player joined!");
             PlayerJoined?.Invoke(runner, player);
         }

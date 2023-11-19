@@ -8,6 +8,7 @@ public class GameLauncher : MonoBehaviour
 {
     private NetworkRunner runner;
     [SerializeField] private NetworkHandler networkHandler;
+    
     [SerializeField] private int lobbySceneIndex;
     private void Start()
     {
@@ -15,8 +16,6 @@ public class GameLauncher : MonoBehaviour
     }
     async void StartGame(GameMode mode)
     {
-      
-       
         // Create the Fusion runner and let it know that we will be providing user input
         runner = gameObject.AddComponent<NetworkRunner>();
         runner.ProvideInput = true;

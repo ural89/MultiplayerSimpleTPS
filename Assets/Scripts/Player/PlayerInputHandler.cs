@@ -34,7 +34,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
 
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetMouseButtonDown(0))
             isFireButtonPressed = true;
     }
     public NetworkInputData GetNetworkInputData()

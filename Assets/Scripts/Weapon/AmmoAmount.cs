@@ -24,10 +24,7 @@ public class AmmoAmount : NetworkBehaviour
     public void AddAmmo(int ammoToAdd)
     {
         ammoAmount += ammoToAdd;
-        if (Object.HasInputAuthority)
-        {
-            Debug.Log(ammoAmount);
-        }
+
         UpdateAmmoMeshes();
     }
     public override void Spawned()
