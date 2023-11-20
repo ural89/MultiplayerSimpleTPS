@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class AmmoPickup : NetworkBehaviour
 {
-    [Networked(OnChanged = nameof(OnHasPickedChanged))]private NetworkBool HasPicked { get; set; } = false;
+    [Networked(OnChanged = nameof(OnHasPickedChanged))] private NetworkBool HasPicked { get; set; } = false;
 
 
     private static void OnHasPickedChanged(Changed<AmmoPickup> changed)
@@ -25,9 +25,10 @@ public class AmmoPickup : NetworkBehaviour
 
         if (HasPicked) return;
         HasPicked = true;
-        // Runner.Despawn(Object);
-        // return;
-        gameObject.SetActive(false);
+        if (Object.HasStateAuthority)
+            Runner.Despawn(Object);
+        return;
+        // gameObject.SetActive(false);
     }
 
 }

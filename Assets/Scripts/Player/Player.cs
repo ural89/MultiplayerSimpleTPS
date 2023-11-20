@@ -79,7 +79,7 @@ public class Player : NetworkBehaviour
 
 
                 var ammoPickup = lagCompensatedHits[0].GameObject.GetComponent<AmmoPickup>();
-                if (ammoPickup != null)
+                if (ammoPickup != null && ammoAmount.Object != null)
                 {
                     ammoPickup.OnPicked(this);
                     ammoAmount.AddAmmo(1);
