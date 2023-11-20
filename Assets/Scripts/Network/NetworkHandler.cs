@@ -28,7 +28,7 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
 
     private void Awake()
     {
-        //DontDestroyOnLoad(this);
+        DontDestroyOnLoad(this);
     }
 
 

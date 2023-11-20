@@ -64,7 +64,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     }
     private void UpdateRespawnDead()
     {
-        Debug.Log("Active players count: " + activePlayersInServer.Count + " Alive players count: " + playersAlive.Count);
+        // Debug.Log("Active players count: " + activePlayersInServer.Count + " Alive players count: " + playersAlive.Count);
         if (activePlayersInServer.Count > playersAlive.Count)
         {
             List<PlayerRef> playersNotAlive = activePlayersInServer.Except(playersAlive).ToList();
