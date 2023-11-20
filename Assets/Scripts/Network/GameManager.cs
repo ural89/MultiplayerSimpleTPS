@@ -76,6 +76,8 @@ public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
             }
         }
+        Debug.Assert(activePlayersInServer.Count <= playersAlive.Count, "more players alive then people in server");
+        Debug.Assert(characters.Count == playersAlive.Count, "characters dict and players alive count not equal");
     }
 
 
