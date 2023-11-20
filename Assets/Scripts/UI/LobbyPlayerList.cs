@@ -1,19 +1,34 @@
+using System.Collections.Generic;
 using Fusion;
 using TMPro;
 using UnityEngine;
 
-public class LobbyPlayerList : MonoBehaviour, IPlayerJoined, IPlayerLeft
+public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
     [SerializeField] private TMP_Text playerNamePrefab;
+    [SerializeField] private Transform playersContainer;
     private NetworkHandler networkHandler;
 
+    [Networked, Capacity(10)] private NetworkLinkedList<PlayerRef> players { get; }
+    [Networked, Capacity(10)] private NetworkDictionary<PlayerRef, string> playerNames { get; }
+    public void SetNameForPlayer(string name)
+    {
+        playerNames.Add(Object.InputAuthority, name);
+        UpdatePlayerList();
+    }
     public void PlayerJoined(PlayerRef player)
     {
+        if (Object.HasStateAuthority)
+            players.Add(player);
+            
+        Object.AssignInputAuthority(player);
         UpdatePlayerList();
     }
 
     public void PlayerLeft(PlayerRef player)
     {
+        if (Object.HasStateAuthority)
+            players.Remove(player);
         UpdatePlayerList();
     }
 
@@ -21,18 +36,21 @@ public class LobbyPlayerList : MonoBehaviour, IPlayerJoined, IPlayerLeft
     {
         networkHandler = FindObjectOfType<NetworkHandler>();
     }
-    private void Start()
-    {
-        Invoke(nameof(UpdatePlayerList) ,1);
-        Debug.Log(networkHandler.ActivePlayersInServer.Count);
-       // Debug.Log("started lobby list");
-    }
+
     private void UpdatePlayerList()
     {
-        foreach (var playerName in networkHandler.ActivePlayersInServer)
+        foreach (Transform child in playersContainer)
+        {
+            if (child != playersContainer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        foreach (var playerName in players)
         {
 
-            Debug.Log(playerName);
+            var playerNameClone = Instantiate(playerNamePrefab, playersContainer);
+            playerNameClone.text = playerName.ToString();
         }
     }
 
