@@ -148,6 +148,7 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 2147483647
+  hitEffect: {fileID: 19845262, guid: fdac75e990da47649b31f10049c400b0, type: 3}
 --- !u!1001 &4720828801981962873
 PrefabInstance:
   m_ObjectHideFlags: 0

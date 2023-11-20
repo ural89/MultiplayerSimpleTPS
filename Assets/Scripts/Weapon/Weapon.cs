@@ -6,6 +6,8 @@ public class Weapon : NetworkBehaviour
     [SerializeField] private Transform projectileSlot;
     [SerializeField] private Projectile projectile;
     [SerializeField] private float fireSpeed = 20f;
+    [SerializeField] private ParticleSystem fireParticle;
+    [SerializeField] private AudioSource fireSFX;
     private AmmoAmount ammoAmount;
 
     private void Awake()
@@ -15,6 +17,9 @@ public class Weapon : NetworkBehaviour
     public void Fire(PlayerRef owner)
     {
         if (!ammoAmount.HasAmmo) return;
+        fireParticle.Play();
+        fireSFX.pitch = Random.Range(0.8f, 1.2f);
+        fireSFX.Play();
         NetworkObjectPredictionKey key = new NetworkObjectPredictionKey { Byte0 = (byte)owner.RawEncoded, Byte1 = (byte)Runner.Simulation.Tick };
 
         void InitProjectile(NetworkRunner r, NetworkObject o)

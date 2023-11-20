@@ -15,6 +15,7 @@ public struct FireData : INetworkStruct
 public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
 {
     [SerializeField] private LayerMask hitMask;
+    [SerializeField] private ParticleSystem hitEffect;
     [Networked] public TickTimer networkedLifeTimer { get; set; }
     [Networked] private FireData _data_Networked { get; set; }
     private FireData _data_Local;
@@ -81,6 +82,7 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
         {
             var health = hit.GameObject.GetComponent<Health>();
             if(health != null) health.TakeDamage(5f);
+            Instantiate(hitEffect, GetMovePosition(Runner.Tick, data), Quaternion.identity);
             Runner.Despawn(Object, true);
         }
     }

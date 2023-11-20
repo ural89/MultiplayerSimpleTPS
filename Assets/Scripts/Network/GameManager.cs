@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Fusion;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
@@ -11,11 +9,13 @@ public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     private Dictionary<PlayerRef, Player> characters = new();
     private List<PlayerRef> playersAlive = new();
     private List<PlayerRef> activePlayersInServer = new();
+
     public static GameManager Instance = null;
 
     private void Awake()
     {
         Instance = this;
+       
     }
 
     public void PlayerLeft(PlayerRef player)

@@ -10,12 +10,20 @@ public class Player : NetworkBehaviour
     public static Player Local { get; private set; }
     private PlayerCameraHandler cameraHandler;
     private AmmoAmount ammoAmount;
+    private HitboxRoot hitboxRoot;
+    private Hitbox[] hitboxes;
+    private Renderer[] renderers;
     private float pickupRadius = 2f;
-   
+    private Health health;
+
     private void Awake()
     {
+        health = GetComponent<Health>();
         ammoAmount = GetComponent<AmmoAmount>();
         cameraHandler = GetComponent<PlayerCameraHandler>();
+        hitboxRoot = GetComponent<HitboxRoot>();
+        hitboxes = GetComponentsInChildren<Hitbox>();
+
     }
 
 
@@ -26,10 +34,33 @@ public class Player : NetworkBehaviour
             Local = this;
 
         }
-        
+        health.OnDie += Healht_OnDie;
+
 
         GameManager.Instance.OnPlayerSpawn(Object.InputAuthority);
         cameraHandler.UpdateCameraSettings();
+    }
+
+    private void Healht_OnDie()
+    {
+        renderers = GetComponentsInChildren<Renderer>();
+        foreach (var hb in hitboxes)
+        {
+            hb.HitboxActive = false;
+            hitboxRoot.SetHitboxActive(hb, false);
+        }
+        foreach (var _renderer in renderers)
+        {
+            _renderer.enabled = false;
+ 
+        }
+
+        Invoke(nameof(LateDespawn), 1f);
+    }
+    private void LateDespawn()
+    {
+        if (Object.HasStateAuthority)
+            Runner.Despawn(Object);
     }
     public override void FixedUpdateNetwork()
     {

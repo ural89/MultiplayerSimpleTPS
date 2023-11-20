@@ -1,15 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using Fusion;
 using UnityEngine;
 
 public class Health : NetworkBehaviour
 {
+    public Action OnDie;
+    [SerializeField] private AudioSource hitSFX;
     [Networked] private float healthAmount { get; set; } = 10;
     private float predictedHealthAmount;
     private bool isDead = false;
     private float fullHealth;
-    public void TakeDamage(float damageTaken) => healthAmount -= damageTaken;
+    public void TakeDamage(float damageTaken)
+    {
+        healthAmount -= damageTaken;
+        hitSFX.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+        hitSFX.Play();
+    }
     public float GetHealthNormilized => predictedHealthAmount / fullHealth;
     public bool IsDead => isDead;
     public override void Spawned()
@@ -19,11 +25,18 @@ public class Health : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         predictedHealthAmount = healthAmount;
-        if (Object.HasStateAuthority)
-            if (healthAmount <= 0)
-            {
-                isDead = true;
-                Runner.Despawn(Object);
-            }
+        // if (Object.HasStateAuthority)
+        if (healthAmount <= 0)
+        {
+            if (!isDead)
+                Die();
+        }
+    }
+    private void Die()
+    {
+        isDead = true;
+        OnDie?.Invoke();
+        // Runner.Despawn(Object);
+
     }
 }
