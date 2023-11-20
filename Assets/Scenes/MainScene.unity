@@ -395,7 +395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ed038e55944104ea003d75a0d5daf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 99, guid: 442d79be9d68be848911b3fab80170f7, type: 3}
 --- !u!4 &750252224
 Transform:
   m_ObjectHideFlags: 0
@@ -1023,6 +1022,10 @@ PrefabInstance:
       propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
       value: 4829016764273240994
       objectReference: {fileID: 0}
+    - target: {fileID: 7306241324896722082, guid: 964628e4c8a54764e847b8f00bf429d6, type: 3}
+      propertyPath: characterPrefab
+      value: 
+      objectReference: {fileID: 99, guid: 442d79be9d68be848911b3fab80170f7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

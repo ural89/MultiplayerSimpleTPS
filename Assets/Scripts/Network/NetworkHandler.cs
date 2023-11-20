@@ -24,8 +24,7 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     public Action<NetworkRunner> SceneLoadDone;
     public Action<NetworkRunner> SceneLoadStart;
     #endregion
-    [SerializeField] private Player characterPrefab;
-    private Dictionary<PlayerRef, Player> characters = new();
+    
 
    
 
@@ -49,10 +48,10 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-            GameManager.Instance.OnPlayerJoin(player);
+           /*  GameManager.Instance.OnPlayerJoin(player);
             var characterClone = runner.Spawn(characterPrefab, Vector3.up * 2, Quaternion.identity, player); //TODO: create playerspawner and call from here and game manager
             characters.Add(player, characterClone);
-         
+          */
             Debug.Log("Player joined!");
             PlayerJoined?.Invoke(runner, player);
         }
@@ -62,9 +61,9 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-            GameManager.Instance.OnPlayerLeft(player);
+         /*    GameManager.Instance.OnPlayerLeft(player);
             runner.Despawn(characters[player].Object, false);
-            characters.Remove(player);
+            characters.Remove(player); */
             Debug.Log("Player left!");
             PlayerLeft?.Invoke(runner, player);
 
