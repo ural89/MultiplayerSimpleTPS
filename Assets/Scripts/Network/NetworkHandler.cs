@@ -25,17 +25,14 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     public Action<NetworkRunner> SceneLoadStart;
     #endregion
 
-
+    public List<PlayerRef> ActivePlayersInServer = new();
     private void Awake()
     {
         DontDestroyOnLoad(this);
     }
 
 
-    private void NetworkHandler_OnPlayerLeft(NetworkRunner runner, PlayerRef player)
-    {
 
-    }
     public void AddPlayerConnectionCallbacks(Action<NetworkRunner, PlayerRef> OnPlayerJoin, Action<NetworkRunner, PlayerRef> OnPlayerLeft)
     {
         PlayerJoined += OnPlayerJoin;
@@ -51,26 +48,22 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-            /*  GameManager.Instance.OnPlayerJoin(player);
-             var characterClone = runner.Spawn(characterPrefab, Vector3.up * 2, Quaternion.identity, player); //TODO: create playerspawner and call from here and game manager
-             characters.Add(player, characterClone);
-           */
-            Debug.Log("Player joined!");
+
             PlayerJoined?.Invoke(runner, player);
+            ActivePlayersInServer.Add(player);
         }
+
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         if (runner.IsServer)
         {
-            /*    GameManager.Instance.OnPlayerLeft(player);
-               runner.Despawn(characters[player].Object, false);
-               characters.Remove(player); */
-            Debug.Log("Player left!");
-            PlayerLeft?.Invoke(runner, player);
 
+            PlayerLeft?.Invoke(runner, player);
+            ActivePlayersInServer.Remove(player);
         }
+
     }
     void INetworkRunnerCallbacks.OnInput(NetworkRunner runner, Fusion.NetworkInput input)
     {
