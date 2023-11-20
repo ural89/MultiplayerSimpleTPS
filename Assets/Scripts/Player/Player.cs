@@ -38,7 +38,7 @@ public class Player : NetworkBehaviour
         health.OnDie += Healht_OnDie;
 
 
-        GameManager.Instance.OnPlayerSpawn(Object.InputAuthority);
+        SpawnManager.Instance.OnPlayerSpawn(Object.InputAuthority);
         cameraHandler.UpdateCameraSettings();
     }
 
@@ -102,6 +102,6 @@ public class Player : NetworkBehaviour
     }
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        GameManager.Instance.OnPlayerDie(Object.InputAuthority);
+        SpawnManager.Instance.OnPlayerDie(Object.InputAuthority);
     }
 }
