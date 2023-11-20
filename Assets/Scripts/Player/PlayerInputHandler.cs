@@ -12,7 +12,7 @@ public class PlayerInputHandler : MonoBehaviour
     void Update()
     {
         //move direction
-
+        //TODO: if player.Object.HasInputAuth
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");
 
