@@ -47,7 +47,7 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
     }
     public override void Render()
     {
-    
+
         bool isProxy = IsProxy == true && Object.IsPredictedSpawn == false;
         float renderTime = isProxy == true ? Runner.InterpolationRenderTime : Runner.SimulationRenderTime;
         float floatTick = renderTime / Runner.DeltaTime;
@@ -81,13 +81,16 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
                  out var hit, hitMask, HitOptions.IncludePhysX | HitOptions.IgnoreInputAuthority))
         {
             var health = hit.GameObject.GetComponent<Health>();
-            if(health != null) health.TakeDamage(5f);
-            Instantiate(hitEffect, GetMovePosition(Runner.Tick, data), Quaternion.identity);
+            if (health != null)
+            {
+                health.TakeDamage(5f);
+                Instantiate(hitEffect, GetMovePosition(Runner.Tick, data), Quaternion.identity);
+            }
             Runner.Despawn(Object, true);
         }
     }
 
-  
+
 
     private Vector3 GetMovePosition(float currentTick, FireData data)
     {
@@ -101,12 +104,12 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
 
     public void PredictedSpawnSpawned()
     {
-        
+
     }
 
     public void PredictedSpawnUpdate()
     {
-        
+
     }
 
     public void PredictedSpawnRender()
@@ -116,11 +119,11 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
 
     public void PredictedSpawnFailed()
     {
-        
+
     }
 
     public void PredictedSpawnSuccess()
     {
-        
+
     }
 }

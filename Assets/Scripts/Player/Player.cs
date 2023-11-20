@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : NetworkBehaviour
 {
 
+    [SerializeField] private AudioSource takeAmmoSFX;
     [SerializeField] private LayerMask pickupLayerMask;
     [SerializeField] private Weapon weapon;
     public static Player Local { get; private set; }
@@ -83,6 +84,7 @@ public class Player : NetworkBehaviour
                 {
                     ammoPickup.OnPicked(this);
                     ammoAmount.AddAmmo(1);
+                    takeAmmoSFX.Play();
                 }
             }
         }
