@@ -12,6 +12,7 @@ public class GameLauncher : MonoBehaviour
     [SerializeField] private int lobbySceneIndex;
     private void Start()
     {
+       // DontDestroyOnLoad(this);
         StartGame(GameMode.AutoHostOrClient);
     }
     async void StartGame(GameMode mode)
