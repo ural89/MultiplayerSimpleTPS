@@ -750,6 +750,10 @@ PrefabInstance:
       propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1157779340614565757, guid: 555d19d2a94d802429a13d184698828f, type: 3}
+      propertyPath: fireSpeed
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 2358247851133789349, guid: 555d19d2a94d802429a13d184698828f, type: 3}
       propertyPath: m_Name
       value: Weapon

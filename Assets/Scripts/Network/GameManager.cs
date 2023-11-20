@@ -12,7 +12,7 @@ public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     private List<PlayerRef> playersAlive = new();
     private List<PlayerRef> activePlayersInServer = new();
     public static GameManager Instance = null;
-    private PlayerRef debugDead;
+
     private void Awake()
     {
         Instance = this;
@@ -20,6 +20,13 @@ public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
     public void PlayerLeft(PlayerRef player)
     {
+        if (playersAlive.Contains(player))
+        {
+            Runner.Despawn(characters[player].Object);
+            playersAlive.Remove(player);
+
+        }
+        characters.Remove(player);
         activePlayersInServer.Remove(player);
 
     }
@@ -33,18 +40,19 @@ public class GameManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     }
     public void OnPlayerSpawn(PlayerRef playerSpawned)
     {
-        if (!Object.HasStateAuthority) return;
+        if (Object != null)
+            if (!Object.HasStateAuthority) return;
 
         playersAlive.Add(playerSpawned);
-        Debug.Log("Player spawned " + playerSpawned);
+
     }
     public void OnPlayerDie(PlayerRef deadPlayer)
     {
         if (Object != null)
             if (!Object.HasStateAuthority) return;
-        debugDead = deadPlayer;
+        characters.Remove(deadPlayer);
         playersAlive.Remove(deadPlayer);
-        Debug.Log("Player dead " + deadPlayer);
+
     }
     public override void FixedUpdateNetwork()
     {
