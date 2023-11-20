@@ -13,7 +13,7 @@ public class Health : NetworkBehaviour
     public void TakeDamage(float damageTaken)
     {
         healthAmount -= damageTaken;
-        hitSFX.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+        hitSFX.pitch = UnityEngine.Random.Range(0.8f, 1.2f); //TODO: Add this to on change health
         hitSFX.Play();
     }
     public float GetHealthNormilized => predictedHealthAmount / fullHealth;
