@@ -7,7 +7,8 @@ public class Health : NetworkBehaviour
     public Action OnDie;
     [SerializeField] private AudioSource hitSFX;
     [Networked(OnChanged = nameof(OnHealthAmountChanged))] private float healthAmount { get; set; } = 10;
-
+    private PlayerRef lastShotBy;
+  
     private static void OnHealthAmountChanged(Changed<Health> changed)
     {
         changed.Behaviour.HealthAmountChanged();
@@ -20,8 +21,9 @@ public class Health : NetworkBehaviour
     private float predictedHealthAmount;
     private bool isDead = false;
     private float fullHealth;
-    public void TakeDamage(float damageTaken)
+    public void TakeDamage(float damageTaken, PlayerRef shooter)
     {
+        lastShotBy = shooter;
         healthAmount -= damageTaken;
 
     }
@@ -44,6 +46,7 @@ public class Health : NetworkBehaviour
     private void Die()
     {
         isDead = true;
+        ScoreManager.Instance.SetScore(lastShotBy, 1);
         OnDie?.Invoke();
         // Runner.Despawn(Object);
 

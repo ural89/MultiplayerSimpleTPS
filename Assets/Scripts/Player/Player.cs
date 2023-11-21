@@ -6,6 +6,8 @@ public class Player : NetworkBehaviour
 {
     [SerializeField] private LayerMask pickupLayerMask;
     [SerializeField] private Weapon weapon;
+
+    public int PlayerID { get; private set; }
     public static Player Local { get; private set; }
     private PlayerCameraHandler cameraHandler;
     private AmmoAmount ammoAmount;
@@ -15,8 +17,11 @@ public class Player : NetworkBehaviour
     private float pickupRadius = 2f;
     private Health health;
 
+    private OwnerGetter ownerGetter;
+
     private void Awake()
     {
+        ownerGetter = FindObjectOfType<OwnerGetter>();
         health = GetComponent<Health>();
         ammoAmount = GetComponent<AmmoAmount>();
         cameraHandler = GetComponent<PlayerCameraHandler>();
@@ -31,8 +36,10 @@ public class Player : NetworkBehaviour
         if (Object.HasInputAuthority)
         {
             Local = this;
+            ownerGetter.SetOwner(Object.InputAuthority);
 
         }
+        PlayerID = Object.InputAuthority;
         health.OnDie += Healht_OnDie;
 
 
@@ -51,7 +58,7 @@ public class Player : NetworkBehaviour
         foreach (var _renderer in renderers)
         {
             _renderer.enabled = false;
- 
+
         }
 
         Invoke(nameof(LateDespawn), 1f);
@@ -82,7 +89,7 @@ public class Player : NetworkBehaviour
                 {
                     ammoPickup.OnPicked(this);
                     ammoAmount.AddAmmo(1);
-                    
+
                 }
             }
         }

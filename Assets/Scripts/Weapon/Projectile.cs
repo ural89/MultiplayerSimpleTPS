@@ -105,7 +105,7 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
             var health = hit.GameObject.GetComponent<Health>();
             if (health != null)
             {
-                health.TakeDamage(5f);
+                health.TakeDamage(5f, Object.InputAuthority);
 
             }
             hasDestroyed = true;

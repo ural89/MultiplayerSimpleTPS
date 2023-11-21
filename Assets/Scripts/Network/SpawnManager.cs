@@ -7,6 +7,7 @@ public class SpawnManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
     [SerializeField] private Transform spawnPointsParent;
     [SerializeField] private Player characterPrefab;
+    [SerializeField] private InGameScoreBoard scoreBoard;
     private Transform[] spawnPoints;
     private Dictionary<PlayerRef, Player> characters = new();
     private List<PlayerRef> playersAlive = new();

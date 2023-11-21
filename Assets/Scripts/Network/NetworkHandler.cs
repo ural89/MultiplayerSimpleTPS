@@ -24,15 +24,27 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     public Action<NetworkRunner> SceneLoadDone;
     public Action<NetworkRunner> SceneLoadStart;
     #endregion
-
     public static List<PlayerRef> ActivePlayersInServer = null;
+    public static Dictionary<PlayerRef, string> ActivePlayerNames = null;
     private void Awake()
     {
         DontDestroyOnLoad(this);
         ActivePlayersInServer = new();
+        ActivePlayerNames = new();
+
     }
 
-
+    public void SetNameForPlayer(PlayerRef player, string name)
+    {
+        if(ActivePlayerNames.ContainsKey(player))
+        {
+            ActivePlayerNames[player] = name;
+        }
+        else
+        {
+            ActivePlayerNames.Add(player, name);
+        }
+    }
 
     public void AddPlayerConnectionCallbacks(Action<NetworkRunner, PlayerRef> OnPlayerJoin, Action<NetworkRunner, PlayerRef> OnPlayerLeft)
     {
