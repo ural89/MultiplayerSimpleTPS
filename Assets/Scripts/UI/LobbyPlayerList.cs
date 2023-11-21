@@ -1,17 +1,20 @@
+using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
     [SerializeField] private TMP_Text playerNamePrefab;
     [SerializeField] private Transform playersContainer;
-    private NetworkHandler networkHandler;
-
+    [SerializeField] private Button startButton;
     [Networked, Capacity(10)] private NetworkLinkedList<PlayerRef> players { get; }
     [Networked, Capacity(10)] private NetworkDictionary<PlayerRef, string> playerNames { get; }
-    public void SetNameForPlayer(string name)
+
+    [Networked] private PlayerRef leaderPlayer { get; set; }
+    public void SetNameForPlayer(PlayerRef playerRef, string name) //Not in use right now
     {
         playerNames.Add(Object.InputAuthority, name);
         UpdatePlayerList();
@@ -19,8 +22,15 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     public void PlayerJoined(PlayerRef player)
     {
         if (Object.HasStateAuthority)
+        {
             players.Add(player);
-            
+            if (!leaderPlayer.IsValid)
+            {
+                leaderPlayer = player;
+                startButton.gameObject.SetActive(true);
+            }
+        }
+
         Object.AssignInputAuthority(player);
         UpdatePlayerList();
     }
@@ -32,26 +42,33 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         UpdatePlayerList();
     }
 
-    private void Awake()
-    {
-        networkHandler = FindObjectOfType<NetworkHandler>();
-    }
 
-    private void UpdatePlayerList()
+
+    public void UpdatePlayerList()
     {
-        foreach (Transform child in playersContainer)
+        StartCoroutine(lateUpdate());
+        IEnumerator lateUpdate()
         {
-            if (child != playersContainer)
+            yield return new WaitForSeconds(0.3f);
+            foreach (Transform child in playersContainer)
             {
-                Destroy(child.gameObject);
+                if (child != playersContainer)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+            foreach (var playerName in players)
+            {
+
+                var playerNameClone = Instantiate(playerNamePrefab, playersContainer);
+                playerNameClone.text = playerName.ToString();
             }
         }
-        foreach (var playerName in players)
-        {
+    }
 
-            var playerNameClone = Instantiate(playerNamePrefab, playersContainer);
-            playerNameClone.text = playerName.ToString();
-        }
+    public void StartGameScene()
+    {
+        Runner.SetActiveScene(2);
     }
 
 }

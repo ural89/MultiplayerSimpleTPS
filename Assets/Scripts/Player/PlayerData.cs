@@ -18,13 +18,4 @@ public struct PlayerData : INetworkStruct //TODO: create a component playerdatah
     public string StringProperty { get => default; set { } }
 }
 
-// For convenience, declared Networked INetworkStructs can use the ref keyword,
-// which allows direct modification of members without needing to deal with copies.
-[Networked]
-public ref PlayerData PlayerDataRef => ref MakeRef<PlayerData>();
-
-public override void Spawned()
-{
-    NetworkedStructRef.Name = "John Conner";
-}
 
