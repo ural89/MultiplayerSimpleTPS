@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class SpawnManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
+    [SerializeField] private Transform spawnPointsParent;
     [SerializeField] private Player characterPrefab;
+    private Transform[] spawnPoints;
     private Dictionary<PlayerRef, Player> characters = new();
     private List<PlayerRef> playersAlive = new();
    
@@ -16,7 +18,7 @@ public class SpawnManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     {
         Instance = this;
 
-
+        spawnPoints = spawnPointsParent.GetComponentsInChildren<Transform>();
     }
 
     public void PlayerLeft(PlayerRef player)
@@ -73,7 +75,8 @@ public class SpawnManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
             foreach (var player in playersNotAlive)
             {
 
-                var characterClone = Runner.Spawn(characterPrefab, Vector3.up * 2, Quaternion.identity, player);
+                var randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+                var characterClone = Runner.Spawn(characterPrefab, randomSpawnPoint.position, Quaternion.identity, player);
                 if (!characters.ContainsKey(player))
                     characters.Add(player, characterClone);
      
