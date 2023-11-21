@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
@@ -16,8 +17,28 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
 {
     [SerializeField] private LayerMask hitMask;
     [SerializeField] private ParticleSystem hitEffect;
+    [SerializeField] private Renderer mesh;
     [Networked] public TickTimer networkedLifeTimer { get; set; }
     [Networked] private FireData _data_Networked { get; set; }
+    [Networked(OnChanged = nameof(OnDestroyChanged))] private NetworkBool hasNetworkedDestroyed { get; set; } = false;
+    private bool hasPredictedDestroyed;
+    private bool hasDestroyed
+    {
+        get => Object.IsPredictedDespawn ? hasPredictedDestroyed : (bool)hasNetworkedDestroyed;
+        set { if (Object.IsPredictedDespawn) hasPredictedDestroyed = value; else hasNetworkedDestroyed = value; }
+
+    }
+
+    private static void OnDestroyChanged(Changed<Projectile> changed)
+    {
+        changed.Behaviour.DestroyChanged();
+    }
+    private void DestroyChanged()
+    {
+        var data = _data;
+        mesh.enabled = false;
+        Instantiate(hitEffect, GetMovePosition(Runner.Tick, data), Quaternion.identity);
+    }
     private FireData _data_Local;
 
     public FireData _data
@@ -47,7 +68,7 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
     }
     public override void Render()
     {
-
+//        if(hasDestroyed) return;
         bool isProxy = IsProxy == true && Object.IsPredictedSpawn == false;
         float renderTime = isProxy == true ? Runner.InterpolationRenderTime : Runner.SimulationRenderTime;
         float floatTick = renderTime / Runner.DeltaTime;
@@ -66,6 +87,7 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
 
     private void MoveProjectile()
     {
+        if (hasDestroyed) return;
         var data = _data;
         if (data.LifeCooldown.Expired(Runner))
         {
@@ -84,12 +106,18 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
             if (health != null)
             {
                 health.TakeDamage(5f);
-                Instantiate(hitEffect, GetMovePosition(Runner.Tick, data), Quaternion.identity);
+
             }
-            Runner.Despawn(Object, true);
+            hasDestroyed = true;
+            if (Object.HasStateAuthority)
+                Invoke(nameof(LateDespawn), 1f);
         }
     }
+    private void LateDespawn()
+    {
+        Runner.Despawn(Object);
 
+    }
 
 
     private Vector3 GetMovePosition(float currentTick, FireData data)

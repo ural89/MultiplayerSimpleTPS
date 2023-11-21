@@ -597,7 +597,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  takeAmmoSFX: {fileID: 7686820848417388570}
   pickupLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -705,6 +704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 3
+  takeAmmoSFX: {fileID: 3522747611309359589}
   ammoPickupMesh: {fileID: 3403369536504976835, guid: df836e8df34d0e8498cef9859f0cdc1c, type: 3}
   ammoPickupSlot: {fileID: 4461143014665897262}
 --- !u!114 &-2574507767813174935
@@ -731,7 +731,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 08ef3735b9527d54ab97d0e9fc9d505d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 73f34590ca4a9b6409f7d3d29781d2ad, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.668
   m_Pitch: 1
@@ -842,7 +842,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9c62c93deb5774144a661cff013c5171, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

@@ -83,7 +83,7 @@ public class SpawnManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
             }
         }
-        Debug.Assert(NetworkHandler.ActivePlayersInServer.Count <= playersAlive.Count, "more players alive then people in server");
+        Debug.Assert(NetworkHandler.ActivePlayersInServer.Count <= playersAlive.Count, "more players alive then people in server"+ NetworkHandler.ActivePlayersInServer.Count + " : " + playersAlive.Count);
         Debug.Assert(characters.Count == playersAlive.Count, "characters dict and players alive count not equal " + NetworkHandler.ActivePlayersInServer.Count + " : " + characters.Count);
     }
 

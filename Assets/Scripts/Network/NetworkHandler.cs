@@ -25,10 +25,11 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     public Action<NetworkRunner> SceneLoadStart;
     #endregion
 
-    public static List<PlayerRef> ActivePlayersInServer = new();
+    public static List<PlayerRef> ActivePlayersInServer = null;
     private void Awake()
     {
         DontDestroyOnLoad(this);
+        ActivePlayersInServer = new();
     }
 
 

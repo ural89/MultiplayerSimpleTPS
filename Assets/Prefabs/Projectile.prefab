@@ -149,6 +149,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2147483647
   hitEffect: {fileID: 19845262, guid: fdac75e990da47649b31f10049c400b0, type: 3}
+  mesh: {fileID: 178943954957283493}
 --- !u!1001 &4720828801981962873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -210,6 +211,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df836e8df34d0e8498cef9859f0cdc1c, type: 3}
+--- !u!23 &178943954957283493 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4897801332540304092, guid: df836e8df34d0e8498cef9859f0cdc1c, type: 3}
+  m_PrefabInstance: {fileID: 4720828801981962873}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2198873730481425621 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6845533871436060332, guid: df836e8df34d0e8498cef9859f0cdc1c, type: 3}

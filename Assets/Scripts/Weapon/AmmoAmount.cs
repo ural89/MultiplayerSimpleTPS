@@ -10,7 +10,7 @@ public class AmmoAmount : NetworkBehaviour
     [Networked(OnChanged = nameof(OnAmmoAmountChanged))] private int ammoAmount { get; set; } = 3;
 
 
-
+    [SerializeField] private AudioSource takeAmmoSFX;
     [SerializeField] private GameObject ammoPickupMesh;
     [SerializeField] private Transform ammoPickupSlot;
     private Stack<GameObject> ammoPickupMeshes = new();
@@ -38,7 +38,7 @@ public class AmmoAmount : NetworkBehaviour
     }
     private void UpdateAmmoMeshes()
     {
-
+        takeAmmoSFX.Play();
         var meshesToCreate = ammoAmount - ammoPickupMeshes.Count;
         if (meshesToCreate > 0)
         {
