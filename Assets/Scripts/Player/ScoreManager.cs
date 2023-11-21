@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
-public class ScoreManager : NetworkBehaviour
+public class ScoreManager : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
     [Networked, Capacity(10)] public NetworkDictionary<PlayerRef, int> playerScores { get; }
     private bool isReady;
@@ -13,6 +13,11 @@ public class ScoreManager : NetworkBehaviour
     public override void Spawned()
     {
         isReady = true;
+        foreach (var player in NetworkHandler.ActivePlayersInServer)
+        {
+            playerScores.Add(player, 0);
+            
+        }
     }
     public int GetScore(PlayerRef player)
     {
@@ -47,5 +52,15 @@ public class ScoreManager : NetworkBehaviour
     private void UpdateCached()
     {
 
+    }
+
+    public void PlayerJoined(PlayerRef player)
+    {
+        playerScores.Add(player, 0);
+    }
+
+    public void PlayerLeft(PlayerRef player)
+    {
+        playerScores.Remove(player);
     }
 }

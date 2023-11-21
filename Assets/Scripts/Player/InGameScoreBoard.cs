@@ -14,7 +14,7 @@ public class InGameScoreBoard : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(UpdateBoard), 1f, 1f);
+        InvokeRepeating(nameof(UpdateBoard), 0.5f, 0.5f);
     }
     // Update is called once per frame
     public void SetOwner(PlayerRef owner)
@@ -24,7 +24,7 @@ public class InGameScoreBoard : MonoBehaviour
     void Update()
     {
         UpdateActivationBoard();
-        UpdateBoard();
+        //UpdateBoard();
     }
 
     private void UpdateActivationBoard()
@@ -46,10 +46,11 @@ public class InGameScoreBoard : MonoBehaviour
     {
         if (ownerGetter.GetOwner.IsValid && ScoreManager.Instance.IsReady)
         {
-            Debug.Log(ScoreManager.Instance.GetScore(ownerGetter.GetOwner));
+           
             foreach (var item in ScoreManager.Instance.playerScores)
             {
-                Debug.Log(item.Key);
+                var scoreTextClone = Instantiate(scoreText, scoreBoard);
+                scoreTextClone.text = item.Key + ": " + item.Value;
             }
         }
 
