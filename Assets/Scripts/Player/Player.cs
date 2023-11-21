@@ -57,7 +57,7 @@ public class Player : NetworkBehaviour
         }
         foreach (var _renderer in renderers)
         {
-            _renderer.enabled = false;
+            //_renderer.enabled = false;
 
         }
 

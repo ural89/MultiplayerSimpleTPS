@@ -28,6 +28,16 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
         set { if (Object.IsPredictedDespawn) hasPredictedDestroyed = value; else hasNetworkedDestroyed = value; }
 
     }
+    [Networked(OnChanged = nameof(HasHitOtherPlayerChanged))] private NetworkBool hasNetworkedHitOtherPlayer { get; set; } = false;
+
+
+    private bool hasPredictedHitOtherPlayer;
+    private bool hasHitOtherPlayer
+    {
+        get => Object.IsPredictedDespawn ? hasPredictedHitOtherPlayer : (bool)hasNetworkedHitOtherPlayer;
+        set { if (Object.IsPredictedDespawn) hasPredictedHitOtherPlayer = value; else hasNetworkedHitOtherPlayer = value; }
+
+    }
 
     private static void OnDestroyChanged(Changed<Projectile> changed)
     {
@@ -35,8 +45,18 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
     }
     private void DestroyChanged()
     {
-        var data = _data;
+
         mesh.enabled = false;
+       
+    }
+    private static void HasHitOtherPlayerChanged(Changed<Projectile> changed)
+    {
+        changed.Behaviour.HitOtherPlayerChanged();
+
+    }
+    private void HitOtherPlayerChanged()
+    {
+        var data = _data;
         Instantiate(hitEffect, GetMovePosition(Runner.Tick, data), Quaternion.identity);
     }
     private FireData _data_Local;
@@ -68,7 +88,7 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
     }
     public override void Render()
     {
-//        if(hasDestroyed) return;
+        //        if(hasDestroyed) return;
         bool isProxy = IsProxy == true && Object.IsPredictedSpawn == false;
         float renderTime = isProxy == true ? Runner.InterpolationRenderTime : Runner.SimulationRenderTime;
         float floatTick = renderTime / Runner.DeltaTime;
@@ -106,6 +126,7 @@ public class Projectile : NetworkBehaviour, IPredictedSpawnBehaviour
             if (health != null)
             {
                 health.TakeDamage(5f, Object.InputAuthority);
+                hasHitOtherPlayer = true;
 
             }
             hasDestroyed = true;

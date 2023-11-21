@@ -17,6 +17,7 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     public void SetNameForPlayer(PlayerRef playerRef, string name) //Not in use right now
     {
         playerNames.Add(Object.InputAuthority, name);
+        NetworkHandler.ActivePlayerNames[playerRef] = name;
         UpdatePlayerList();
     }
     public void PlayerJoined(PlayerRef player)
