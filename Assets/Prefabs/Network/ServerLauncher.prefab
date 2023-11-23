@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ca1a967e220d54e8b6501cd9027169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbySceneIndex: 1
+  lobbySceneIndex: 2
