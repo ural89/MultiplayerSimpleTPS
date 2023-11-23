@@ -24,6 +24,7 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
     public Action<NetworkRunner> SceneLoadDone;
     public Action<NetworkRunner> SceneLoadStart;
     #endregion
+    [SerializeField] private int lobbySceneIndex = 1;
     public static List<PlayerRef> ActivePlayersInServer = null;
     public static Dictionary<PlayerRef, string> ActivePlayerNames = null;
     private void Awake()
@@ -75,6 +76,10 @@ public class NetworkHandler : MonoBehaviour, INetworkRunnerCallbacks
 
             PlayerLeft?.Invoke(runner, player);
             ActivePlayersInServer.Remove(player);
+            if(ActivePlayersInServer.Count == 0)
+            {
+                runner.SetActiveScene(lobbySceneIndex);
+            }
         }
 
     }

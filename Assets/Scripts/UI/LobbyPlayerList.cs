@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,25 +23,23 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     }
     public void PlayerJoined(PlayerRef player)
     {
-        if (Runner.GameMode == GameMode.Server)
-        {
-           
-            if (Runner.IsClient)
-                if (!leaderPlayer.IsValid)
-                {
-                    leaderPlayer = player;
-                    startButton.gameObject.SetActive(true);
-                }
-        }
-        else
-        {
-           
+        if (Object.HasStateAuthority)
             if (!leaderPlayer.IsValid)
-            {
                 leaderPlayer = player;
+        if (Runner.IsClient)
+            if (leaderPlayer == player)
                 startButton.gameObject.SetActive(true);
-            }
-        }
+
+
+        /*  else
+         {
+
+             if (!leaderPlayer.IsValid)
+             {
+                 leaderPlayer = player;
+                 startButton.gameObject.SetActive(true);
+             }
+         } */
         if (Object.HasStateAuthority)
         {
             players.Add(player);
@@ -55,6 +54,7 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     {
         if (Object.HasStateAuthority)
             players.Remove(player);
+      
         UpdatePlayerList();
     }
 
@@ -84,8 +84,14 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
     public void StartGameScene()
     {
+        RPC_StartGame();
         //TODO: client does not have auth to change the scene
+    }
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority, Channel = RpcChannel.Reliable)]
+    public void RPC_StartGame()
+    {
         Runner.SetActiveScene(2);
+
     }
 
 }

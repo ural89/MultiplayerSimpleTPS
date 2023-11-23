@@ -12,8 +12,8 @@ public class ClientLauncher : MonoBehaviour
     }
     private void Start()
     {
-        // DontDestroyOnLoad(this);
-        StartGame(GameMode.AutoHostOrClient); //TODO: change this to Client mode when testing dedicated server
+        
+        StartGame(GameMode.Client); //TODO: change this to Client mode when testing dedicated server
     }
     async void StartGame(GameMode mode)
     {
