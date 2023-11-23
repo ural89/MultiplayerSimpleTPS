@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
@@ -8,13 +9,28 @@ using UnityEngine.UI;
 
 public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 {
+    [SerializeField] private int gameSceneIndex = 2;
     [SerializeField] private TMP_Text playerNamePrefab;
     [SerializeField] private Transform playersContainer;
-    [SerializeField] private Button startButton;
+    [Networked(OnChanged = nameof(OnReadyPlayerCountChanged))] private int readyPlayersCount { get; set; } = 0;
+
+
     [Networked, Capacity(10)] private NetworkLinkedList<PlayerRef> players { get; }
     [Networked, Capacity(10)] private NetworkDictionary<PlayerRef, string> playerNames { get; }
 
     [Networked] private PlayerRef leaderPlayer { get; set; }
+    public override void Spawned()
+    {
+        if (!Object.HasStateAuthority) return;
+        players.Clear();
+        leaderPlayer = default;
+
+        foreach (var player in NetworkHandler.ActivePlayersInServer)
+        {
+            players.Add(player);
+        }
+
+    }
     public void SetNameForPlayer(PlayerRef playerRef, string name) //Not in use right now
     {
         playerNames.Add(Object.InputAuthority, name);
@@ -26,35 +42,24 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
         if (Object.HasStateAuthority)
             if (!leaderPlayer.IsValid)
                 leaderPlayer = player;
-        if (Runner.IsClient)
-            if (leaderPlayer == player)
-                startButton.gameObject.SetActive(true);
 
-
-        /*  else
-         {
-
-             if (!leaderPlayer.IsValid)
-             {
-                 leaderPlayer = player;
-                 startButton.gameObject.SetActive(true);
-             }
-         } */
         if (Object.HasStateAuthority)
         {
             players.Add(player);
 
         }
-
-        Object.AssignInputAuthority(player);
+        //Object.AssignInputAuthority(player);
         UpdatePlayerList();
     }
+
+
 
     public void PlayerLeft(PlayerRef player)
     {
         if (Object.HasStateAuthority)
             players.Remove(player);
-      
+
+
         UpdatePlayerList();
     }
 
@@ -81,17 +86,42 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
             }
         }
     }
-
-    public void StartGameScene()
+    public void OnReadyToggle(bool isReady)
     {
-        RPC_StartGame();
-        //TODO: client does not have auth to change the scene
+        RPC_ToggledReady(isReady);
+
+
+    }
+    private static void OnReadyPlayerCountChanged(Changed<LobbyPlayerList> changed)
+    {
+        changed.Behaviour.OnReadyPlayerCountChanged();
+    }
+
+    private void OnReadyPlayerCountChanged()
+    {
+        if (readyPlayersCount == players.Count)
+            Runner.SetActiveScene(gameSceneIndex);
+
     }
     [Rpc(RpcSources.All, RpcTargets.StateAuthority, Channel = RpcChannel.Reliable)]
-    public void RPC_StartGame()
+    public void RPC_ToggledReady(bool isReady)
     {
-        Runner.SetActiveScene(2);
-
+        if (isReady)
+            readyPlayersCount++;
+        else
+            readyPlayersCount--;
+        Debug.Log(readyPlayersCount);
     }
+    /*  private void StartGameScene()
+     {
+         RPC_StartGame();
+       
+     }
+     [Rpc(RpcSources.All, RpcTargets.StateAuthority, Channel = RpcChannel.Reliable)]
+     public void RPC_StartGame()
+     {
+         Runner.SetActiveScene(2);
+     }
+  */
 
 }

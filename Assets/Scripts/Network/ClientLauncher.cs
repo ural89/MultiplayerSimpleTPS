@@ -26,7 +26,7 @@ public class ClientLauncher : MonoBehaviour
         await runner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
-            SessionName = "TestRoom",
+            //SessionName = "urals",
             Scene = lobbySceneIndex,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
