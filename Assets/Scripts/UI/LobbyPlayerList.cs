@@ -22,14 +22,16 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     }
     public void PlayerJoined(PlayerRef player)
     {
-        if (Object.HasStateAuthority)
-        {
-            players.Add(player);
+        if (Runner.IsClient)
             if (!leaderPlayer.IsValid)
             {
                 leaderPlayer = player;
                 startButton.gameObject.SetActive(true);
             }
+        if (Object.HasStateAuthority)
+        {
+            players.Add(player);
+
         }
 
         Object.AssignInputAuthority(player);
@@ -69,6 +71,7 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
 
     public void StartGameScene()
     {
+        //TODO: client does not have auth to change the scene
         Runner.SetActiveScene(2);
     }
 
