@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  playersAlive: []
+  spawnPointsParent: {fileID: 0}
+  characterPrefab: {fileID: 0}
+  scoreBoard: {fileID: 0}
 --- !u!114 &6367492249940989932
 MonoBehaviour:
   m_ObjectHideFlags: 0

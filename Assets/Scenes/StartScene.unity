@@ -180,9 +180,17 @@ PrefabInstance:
       value: GameLauncher
       objectReference: {fileID: 0}
     - target: {fileID: 8697113658456929550, guid: deaed1875f5f78d4a81824b9c73fd9f4, type: 3}
+      propertyPath: clientLauncher
+      value: 
+      objectReference: {fileID: -3986383834377717555, guid: 5be938d666f3ac3408582e9618da3512, type: 3}
+    - target: {fileID: 8697113658456929550, guid: deaed1875f5f78d4a81824b9c73fd9f4, type: 3}
       propertyPath: networkHandler
       value: 
       objectReference: {fileID: 1821633382}
+    - target: {fileID: 8697113658456929550, guid: deaed1875f5f78d4a81824b9c73fd9f4, type: 3}
+      propertyPath: serverLauncher
+      value: 
+      objectReference: {fileID: -2148270802151017019, guid: 84f163044b9986c46ace5760c836a274, type: 3}
     - target: {fileID: 8697113658456929550, guid: deaed1875f5f78d4a81824b9c73fd9f4, type: 3}
       propertyPath: lobbySceneIndex
       value: 1

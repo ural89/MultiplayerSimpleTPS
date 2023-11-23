@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Fusion;
-public class ServerLauncher : MonoBehaviour
-{
+using UnityEngine;
 
+public class ClientLauncher : MonoBehaviour
+{
     private NetworkRunner runner;
     [SerializeField] private int lobbySceneIndex;
     private NetworkHandler networkHandler;
@@ -16,7 +14,7 @@ public class ServerLauncher : MonoBehaviour
     private void Start()
     {
         // DontDestroyOnLoad(this);
-        StartGame(GameMode.Server);
+        StartGame(GameMode.Client);
     }
     async void StartGame(GameMode mode)
     {
