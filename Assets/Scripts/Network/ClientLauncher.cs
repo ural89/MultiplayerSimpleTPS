@@ -4,9 +4,8 @@ using UnityEngine;
 public class ClientLauncher : MonoBehaviour
 {
     private NetworkRunner runner;
-    [SerializeField] private int lobbySceneIndex;
     private NetworkHandler networkHandler;
-
+    [SerializeField] private int lobbySceneIndex = 1;
     private void Awake()
     {
         networkHandler = FindObjectOfType<NetworkHandler>();
@@ -14,7 +13,7 @@ public class ClientLauncher : MonoBehaviour
     private void Start()
     {
         // DontDestroyOnLoad(this);
-        StartGame(GameMode.Client);
+        StartGame(GameMode.AutoHostOrClient); //TODO: change this to Client mode when testing dedicated server
     }
     async void StartGame(GameMode mode)
     {

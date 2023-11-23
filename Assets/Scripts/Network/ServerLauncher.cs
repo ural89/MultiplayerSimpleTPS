@@ -6,7 +6,7 @@ public class ServerLauncher : MonoBehaviour
 {
 
     private NetworkRunner runner;
-    [SerializeField] private int lobbySceneIndex;
+    [SerializeField] private int gameSceneIndex;
     private NetworkHandler networkHandler;
 
     private void Awake()
@@ -15,7 +15,7 @@ public class ServerLauncher : MonoBehaviour
     }
     private void Start()
     {
-        // DontDestroyOnLoad(this);
+        
         StartGame(GameMode.Server);
     }
     async void StartGame(GameMode mode)
@@ -30,7 +30,7 @@ public class ServerLauncher : MonoBehaviour
         {
             GameMode = mode,
             SessionName = "TestRoom",
-            Scene = lobbySceneIndex,
+            Scene = gameSceneIndex,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
     }

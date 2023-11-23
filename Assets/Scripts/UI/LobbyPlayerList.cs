@@ -22,12 +22,25 @@ public class LobbyPlayerList : NetworkBehaviour, IPlayerJoined, IPlayerLeft
     }
     public void PlayerJoined(PlayerRef player)
     {
-        if (Runner.IsClient)
+        if (Runner.GameMode == GameMode.Server)
+        {
+           
+            if (Runner.IsClient)
+                if (!leaderPlayer.IsValid)
+                {
+                    leaderPlayer = player;
+                    startButton.gameObject.SetActive(true);
+                }
+        }
+        else
+        {
+           
             if (!leaderPlayer.IsValid)
             {
                 leaderPlayer = player;
                 startButton.gameObject.SetActive(true);
             }
+        }
         if (Object.HasStateAuthority)
         {
             players.Add(player);
