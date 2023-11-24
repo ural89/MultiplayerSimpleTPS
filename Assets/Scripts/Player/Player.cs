@@ -11,6 +11,7 @@ public class Player : NetworkBehaviour
     public int PlayerID { get; private set; }
     public static Player Local { get; private set; }
     private PlayerCameraHandler cameraHandler;
+    private PlayerMovementHandler playerMovementHandler;
     private AmmoAmount ammoAmount;
     private HitboxRoot hitboxRoot;
     private PlayerInputHandler playerInputHandler;
@@ -31,6 +32,7 @@ public class Player : NetworkBehaviour
         hitboxes = GetComponentsInChildren<Hitbox>();
         playerInputHandler = GetComponent<PlayerInputHandler>();
         networkHandler = FindObjectOfType<NetworkHandler>();
+        playerMovementHandler = GetComponent<PlayerMovementHandler>();
 
     }
 
@@ -117,9 +119,8 @@ public class Player : NetworkBehaviour
     private void CheckForShipInputArea()
     {
         Collider[] colliders = new Collider[1];
-        if (Runner.GetPhysicsScene().OverlapSphere(transform.position, 2, colliders, shipLayerMask, QueryTriggerInteraction.Collide) > 0)
+        if (Runner.GetPhysicsScene().OverlapSphere(transform.position, 0.1f, colliders, shipLayerMask, QueryTriggerInteraction.Collide) > 0)
         {
-            Debug.Log("Collided ship");
             var shipInputArea = colliders[0].GetComponent<ShipInputArea>();
             if (shipInputArea != null)
                 TakeControlOfShip(shipInputArea);
@@ -127,6 +128,7 @@ public class Player : NetworkBehaviour
     }
     private void TakeControlOfShip(ShipInputArea shipInputArea)
     {
+        playerMovementHandler.SetCanMove(false);
         shipInputArea.TakeControlOfShip(Object.InputAuthority);
     }
     private void CheckInput()

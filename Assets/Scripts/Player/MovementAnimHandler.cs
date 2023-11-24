@@ -11,16 +11,22 @@ public class MovementAnimHandler : MonoBehaviour
     private Action<float> onStep;
     private Health health;
     private const float MIN_MAGNITUDE_TO_MOVE = 0.01f;
-    private KCC kcc;
+    private PlayerMovementHandler playerMovementHandler;
     private void Awake()
     {
-        kcc = GetComponent<KCC>();
+        playerMovementHandler = GetComponent<PlayerMovementHandler>();
         health = GetComponent<Health>();
 
     }
     private void Start()
     {
         health.OnDie += Health_OnDie;
+        playerMovementHandler.OnMove += PlayerMovementHandler_OnMove;
+    }
+
+    private void PlayerMovementHandler_OnMove(Vector3 moveDelta)
+    {
+       UpdateAnimation(moveDelta);
     }
 
     private void Health_OnDie()
@@ -28,19 +34,12 @@ public class MovementAnimHandler : MonoBehaviour
         anim.SetBool("IsDead", true);
     }
 
-    private void Update()
+  
+    private void UpdateAnimation(Vector3 moveDelta)
     {
-        if (kcc != null)
-        {
-            UpdateAnimation(kcc.Data.RealVelocity);
-
-        }
-    }
-    public void UpdateAnimation(Vector3 moveDelta)
-    {
-
         if (moveDelta.magnitude < MIN_MAGNITUDE_TO_MOVE)
             moveDelta = Vector3.zero;
+      
         var velX = transform.InverseTransformDirection(moveDelta).x;
         var velZ = transform.InverseTransformDirection(moveDelta).z;
         anim.SetFloat("VelocityX", velX * animationMultiplier);
