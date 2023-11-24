@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c1c023fc4d9f046936ee154d51a843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkHandler: {fileID: 0}
-  lobbySceneIndex: 0
+  serverLauncher: {fileID: -2148270802151017019, guid: 84f163044b9986c46ace5760c836a274, type: 3}
+  clientLauncher: {fileID: -3986383834377717555, guid: 5be938d666f3ac3408582e9618da3512, type: 3}

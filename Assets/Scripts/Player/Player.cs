@@ -5,13 +5,15 @@ using UnityEngine;
 public class Player : NetworkBehaviour
 {
     [SerializeField] private LayerMask pickupLayerMask;
+    [SerializeField] private LayerMask shipLayerMask;
     [SerializeField] private Weapon weapon;
-
+    private NetworkHandler networkHandler;
     public int PlayerID { get; private set; }
     public static Player Local { get; private set; }
     private PlayerCameraHandler cameraHandler;
     private AmmoAmount ammoAmount;
     private HitboxRoot hitboxRoot;
+    private PlayerInputHandler playerInputHandler;
     private Hitbox[] hitboxes;
     private Renderer[] renderers;
     private float pickupRadius = 2f;
@@ -27,9 +29,21 @@ public class Player : NetworkBehaviour
         cameraHandler = GetComponent<PlayerCameraHandler>();
         hitboxRoot = GetComponent<HitboxRoot>();
         hitboxes = GetComponentsInChildren<Hitbox>();
+        playerInputHandler = GetComponent<PlayerInputHandler>();
+        networkHandler = FindObjectOfType<NetworkHandler>();
 
     }
 
+
+
+    private void NetworkHandler_Input(NetworkRunner runner, NetworkInput input) //TODO: carry this to network input handler or somehting like that
+    {
+        if (Object != null)
+            if (Object.HasInputAuthority)
+            {
+                input.Set(playerInputHandler.GetNetworkInputData());
+            }
+    }
 
     public override void Spawned()
     {
@@ -37,6 +51,7 @@ public class Player : NetworkBehaviour
         {
             Local = this;
             ownerGetter.SetOwner(Object.InputAuthority);
+            networkHandler.Input += NetworkHandler_Input;
 
         }
         PlayerID = Object.InputAuthority;
@@ -65,6 +80,9 @@ public class Player : NetworkBehaviour
     }
     private void LateDespawn()
     {
+        if (Object.HasInputAuthority)
+            networkHandler.Input -= NetworkHandler_Input;
+
         if (Object.HasStateAuthority)
             Runner.Despawn(Object);
     }
@@ -72,6 +90,7 @@ public class Player : NetworkBehaviour
     {
         CheckInput();
         CheckForAmmoPickup();
+        CheckForShipInputArea();
 
     }
     private void CheckForAmmoPickup()
@@ -94,6 +113,21 @@ public class Player : NetworkBehaviour
             }
         }
 
+    }
+    private void CheckForShipInputArea()
+    {
+        Collider[] colliders = new Collider[1];
+        if (Runner.GetPhysicsScene().OverlapSphere(transform.position, 2, colliders, shipLayerMask, QueryTriggerInteraction.Collide) > 0)
+        {
+            Debug.Log("Collided ship");
+            var shipInputArea = colliders[0].GetComponent<ShipInputArea>();
+            if (shipInputArea != null)
+                TakeControlOfShip(shipInputArea);
+        }
+    }
+    private void TakeControlOfShip(ShipInputArea shipInputArea)
+    {
+        shipInputArea.TakeControlOfShip(Object.InputAuthority);
     }
     private void CheckInput()
     {

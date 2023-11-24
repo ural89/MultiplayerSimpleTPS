@@ -13,7 +13,7 @@ public class ClientLauncher : MonoBehaviour
     private void Start()
     {
         
-        StartGame(GameMode.Client); //TODO: change this to Client mode when testing dedicated server
+        StartGame(GameMode.AutoHostOrClient); //TODO: change this to Client mode when testing dedicated server
     }
     async void StartGame(GameMode mode)
     {
