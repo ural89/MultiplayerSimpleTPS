@@ -13,7 +13,7 @@ public class ShipMovement : NetworkBehaviour
     }
     public void UpdateInput(Vector2 movementInput)
     {
-        MoveDelta = new Vector3(movementInput.x, 0, movementInput.y) * Runner.DeltaTime;
+        MoveDelta = new Vector3(movementInput.x, 0, movementInput.y) * Runner.DeltaTime * 5;
         rb.Rigidbody.MovePosition(transform.position + MoveDelta);
     }
 }
