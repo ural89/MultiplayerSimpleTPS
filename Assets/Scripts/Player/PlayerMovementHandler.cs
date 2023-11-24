@@ -10,7 +10,8 @@ public class PlayerMovementHandler : NetworkBehaviour
     private KCC kcc;
     [Networked] private Vector3 currentPosition { get; set; }
     private Vector3 moveDelta;
-    private float initialAngleToShip;
+    private Vector3 initialPosition;
+    private Vector3 lastPosition;
     private Ship ship;
     private void Awake()
     {
@@ -22,6 +23,8 @@ public class PlayerMovementHandler : NetworkBehaviour
     {
         ship = FindObjectOfType<Ship>();
         currentPosition = transform.position;
+        initialPosition = currentPosition;
+        lastPosition = currentPosition;
     }
     public void SetCanMove(bool canMove)
     {
@@ -43,7 +46,7 @@ public class PlayerMovementHandler : NetworkBehaviour
                 kcc.SetLookRotation(lookRotation);
             }
         }
-        currentPosition = transform.position;
+       // currentPosition = transform.position;
 
 
 
@@ -54,7 +57,9 @@ public class PlayerMovementHandler : NetworkBehaviour
 
     private void UpdateMovementToShipPosition() //TODO: carry this to late update
     {
-        Vector3 playerToShipCenter = transform.position - ship.transform.position;
+
+        Vector3 playerToShipCenter = currentPosition - ship.transform.position;
+        float distanceFromShip = playerToShipCenter.magnitude;
 
         // Calculate the angle between the forward direction of the ship and the player-to-ship-center vector
         float angle = Vector3.SignedAngle(Vector3.forward, playerToShipCenter.normalized, Vector3.up);
@@ -66,7 +71,6 @@ public class PlayerMovementHandler : NetworkBehaviour
         float angleInRadians = Mathf.Deg2Rad * angle;
 
         // Calculate the new player position based on ship's position, rotated angle, and distance
-        float distanceFromShip = playerToShipCenter.magnitude;
         Vector3 newPosition = ShipMovement.MoveDelta +
             new Vector3(Mathf.Sin(angleInRadians), 0, Mathf.Cos(angleInRadians)) * distanceFromShip;
 
@@ -74,7 +78,8 @@ public class PlayerMovementHandler : NetworkBehaviour
         Debug.DrawLine(newPosition, newPosition + Vector3.up * 100, Color.white, 0.5f);
 
         // Set the player's position using KCC
-        kcc.SetPosition(currentPosition + ShipMovement.MoveDelta);
+        kcc.SetPosition(newPosition); 
+
 
     }
 

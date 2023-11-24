@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class ShipMovement : NetworkBehaviour
 {
+    [SerializeField] private float constRotationSpeed = 1f;
     public static Vector3 MoveDelta;
     public static float rotationDegree;
     private NetworkRigidbody rb;
@@ -16,7 +17,7 @@ public class ShipMovement : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         rotationDegree = transform.eulerAngles.y;
-        RotateShip(1);
+        RotateShip(constRotationSpeed);
     }
  
     public void UpdateInput(Vector2 movementInput)
