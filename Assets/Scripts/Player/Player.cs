@@ -21,7 +21,12 @@ public class Player : NetworkBehaviour
     private Health health;
 
     private OwnerGetter ownerGetter;
-
+    private ControlType controlType = ControlType.character;
+    private enum ControlType
+    {
+        character,
+        ship
+    }
     private void Awake()
     {
         ownerGetter = FindObjectOfType<OwnerGetter>();
@@ -128,6 +133,7 @@ public class Player : NetworkBehaviour
     }
     private void TakeControlOfShip(ShipInputArea shipInputArea)
     {
+        controlType = ControlType.ship;
         playerMovementHandler.SetCanMove(false);
         shipInputArea.TakeControlOfShip(Object.InputAuthority);
     }
