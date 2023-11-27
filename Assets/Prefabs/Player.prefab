@@ -666,6 +666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  playerMesh: {fileID: 1937170817633549174, guid: eb3e7460f1ed7344d8e9fb1a203df55d, type: 3}
   pickupLayerMask:
     serializedVersion: 2
     m_Bits: 64

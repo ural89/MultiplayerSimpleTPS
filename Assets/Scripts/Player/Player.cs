@@ -4,8 +4,10 @@ using Fusion;
 using UnityEngine;
 public class Player : NetworkBehaviour
 {
+    [SerializeField] private GameObject playerMesh;
     [SerializeField] private LayerMask pickupLayerMask;
     [SerializeField] private LayerMask shipLayerMask;
+    private Ship ship;
     [SerializeField] private Weapon weapon;
     private NetworkHandler networkHandler;
     public int PlayerID { get; private set; }
@@ -29,6 +31,7 @@ public class Player : NetworkBehaviour
     }
     private void Awake()
     {
+        ship = FindObjectOfType<Ship>();
         ownerGetter = FindObjectOfType<OwnerGetter>();
         health = GetComponent<Health>();
         ammoAmount = GetComponent<AmmoAmount>();
@@ -63,8 +66,9 @@ public class Player : NetworkBehaviour
         }
         PlayerID = Object.InputAuthority;
         health.OnDie += Healht_OnDie;
-
-
+        transform.SetParent(FindObjectOfType<ShipCollider>().transform);
+        var playerMeshClone = Instantiate(playerMesh, ship.transform);
+        playerMeshClone.GetComponent<PlayerMeshInRealShip>().SetPlayer(this);
         SpawnManager.Instance.OnPlayerSpawn(Object.InputAuthority);
         cameraHandler.UpdateCameraSettings();
     }

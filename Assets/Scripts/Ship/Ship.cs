@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Ship : NetworkBehaviour
 {
+    [SerializeField] private Transform spawnPoint;
+    public Vector3 GetSpawnPoint => spawnPoint.position;
     private ShipMovement shipMovement;
     public void SetInputAuthority(PlayerRef player) => Object.AssignInputAuthority(player);
     private void Awake()
