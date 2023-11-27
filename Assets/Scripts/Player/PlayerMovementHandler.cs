@@ -49,10 +49,10 @@ public class PlayerMovementHandler : NetworkBehaviour
        // currentPosition = transform.position;
 
 
-
-        currentPosition += moveDelta * Runner.DeltaTime * 5;
+        kcc.SetInputDirection(moveDelta);
+        // currentPosition += moveDelta * Runner.DeltaTime * 5;
         OnMove?.Invoke(moveDelta);
-        UpdateMovementToShipPosition();
+        // UpdateMovementToShipPosition();
     }
 
     private void UpdateMovementToShipPosition() //TODO: carry this to late update
