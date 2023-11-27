@@ -4,7 +4,7 @@ using Fusion;
 using UnityEngine;
 public class Player : NetworkBehaviour
 {
-    [SerializeField] private GameObject playerMesh;
+    [SerializeField] private NetworkObject playerMesh;
     [SerializeField] private LayerMask pickupLayerMask;
     [SerializeField] private LayerMask shipLayerMask;
     private Ship ship;
@@ -24,6 +24,8 @@ public class Player : NetworkBehaviour
 
     private OwnerGetter ownerGetter;
     private ControlType controlType = ControlType.character;
+
+    public NetworkObject GetPlayerMesh => playerMesh;
     private enum ControlType
     {
         character,
@@ -57,20 +59,25 @@ public class Player : NetworkBehaviour
 
     public override void Spawned()
     {
+
+        var pm = Runner.Spawn(playerMesh, Vector3.zero, Quaternion.identity, Object.InputAuthority, (r, o) =>
+        {
+            o.transform.SetParent(ship.transform);
+            o.GetComponent<PlayerMeshInRealShip>().SetPlayer(this);
+        });
         if (Object.HasInputAuthority)
         {
             Local = this;
             ownerGetter.SetOwner(Object.InputAuthority);
             networkHandler.Input += NetworkHandler_Input;
 
+            cameraHandler.UpdateCameraSettings(pm.GetComponent<PlayerMeshInRealShip>());
         }
         PlayerID = Object.InputAuthority;
         health.OnDie += Healht_OnDie;
         transform.SetParent(FindObjectOfType<ShipCollider>().transform);
-        var playerMeshClone = Instantiate(playerMesh, ship.transform);
-        playerMeshClone.GetComponent<PlayerMeshInRealShip>().SetPlayer(this);
+
         SpawnManager.Instance.OnPlayerSpawn(Object.InputAuthority);
-        cameraHandler.UpdateCameraSettings();
     }
 
     private void Healht_OnDie()

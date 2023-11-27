@@ -666,7 +666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  playerMesh: {fileID: 1937170817633549174, guid: eb3e7460f1ed7344d8e9fb1a203df55d, type: 3}
+  playerMesh: {fileID: 7109211923634797248, guid: eb3e7460f1ed7344d8e9fb1a203df55d, type: 3}
   pickupLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -712,6 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 11.63, z: -12.59}
+  player: {fileID: 0}
 --- !u!114 &-2271577617041822433
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5540903609158948247}
   - component: {fileID: 5859482537099808710}
   - component: {fileID: 7129879122242341701}
+  - component: {fileID: 7109211923634797248}
   m_Layer: 0
   m_Name: PlayerMesh
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5452099475934758787
 MeshFilter:
@@ -120,3 +121,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181d7f2b6d7dcd443bdd01c162130a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+--- !u!114 &7109211923634797248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937170817633549174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectInterest: 1
+  DefaultInterestGroups: []
+  DestroyWhenStateAuthorityLeaves: 0
+  AllowStateAuthorityOverride: 1
+  AoiPositionSource: {fileID: 0}
+  Flags: 2305
+  NetworkGuid:
+    RawGuidValue: eb3e7460f1ed7344d8e9fb1a203df55d
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 7129879122242341701}
+  SimulationBehaviours: []
