@@ -11,10 +11,10 @@ public class MovementAnimHandler : MonoBehaviour
     private Action<float> onStep;
     private Health health;
     private const float MIN_MAGNITUDE_TO_MOVE = 0.01f;
-    private PlayerMovementHandler playerMovementHandler;
+    private PlayerMovementKinematicMovement playerMovementHandler;
     private void Awake()
     {
-        playerMovementHandler = GetComponent<PlayerMovementHandler>();
+        playerMovementHandler = GetComponent<PlayerMovementKinematicMovement>();
         health = GetComponent<Health>();
 
     }

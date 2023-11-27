@@ -7,27 +7,32 @@ using UnityEngine.UIElements;
 public class ShipMovement : NetworkBehaviour
 {
     [SerializeField] private float constRotationSpeed = 1f;
-    public static Vector3 MoveDelta;
-    public static float rotationDegree;
+    [SerializeField] private float constMoveSpeed = 0f;
+    public  Vector3 MoveDelta;
+    public  float rotationDegree;
     private NetworkRigidbody rb;
     private void Awake()
     {
+        MoveDelta = Vector3.zero;
+        rotationDegree = 0;
         rb = GetComponent<NetworkRigidbody>();
     }
     public override void FixedUpdateNetwork()
     {
         rotationDegree = transform.eulerAngles.y;
-        RotateShip(constRotationSpeed);
+        if (constRotationSpeed != 0)
+            RotateShip(constRotationSpeed);
+        if (constMoveSpeed != 0)
+            UpdateInput(new Vector2(0, constMoveSpeed));
     }
- 
+
     public void UpdateInput(Vector2 movementInput)
     {
-        // Calculate movement in the forward direction
+
         MoveDelta = new Vector3(0, 0, movementInput.y) * Runner.DeltaTime * 5;
 
-        // Move the ship
         rb.Rigidbody.MovePosition(transform.position + MoveDelta);
-    
+
         RotateShip(movementInput.x);
     }
 

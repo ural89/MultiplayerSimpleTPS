@@ -13,6 +13,8 @@ public class PlayerMovementHandler : NetworkBehaviour
     private Vector3 initialPosition;
     private Vector3 lastPosition;
     private Ship ship;
+    private ShipMovement shipMovement;
+
     private void Awake()
     {
 
@@ -22,6 +24,7 @@ public class PlayerMovementHandler : NetworkBehaviour
     public override void Spawned()
     {
         ship = FindObjectOfType<Ship>();
+        shipMovement = ship.GetComponent<ShipMovement>();
         currentPosition = transform.position;
         initialPosition = currentPosition;
         lastPosition = currentPosition;
@@ -65,13 +68,13 @@ public class PlayerMovementHandler : NetworkBehaviour
         float angle = Vector3.SignedAngle(Vector3.forward, playerToShipCenter.normalized, Vector3.up);
 
         // Incorporate the ship's rotation
-        angle += ShipMovement.rotationDegree;
+        angle += shipMovement.rotationDegree;
 
         // Convert the angle to radians
         float angleInRadians = Mathf.Deg2Rad * angle;
 
         // Calculate the new player position based on ship's position, rotated angle, and distance
-        Vector3 newPosition = ShipMovement.MoveDelta +
+        Vector3 newPosition = shipMovement.MoveDelta +
             new Vector3(Mathf.Sin(angleInRadians), 0, Mathf.Cos(angleInRadians)) * distanceFromShip;
 
         Debug.Log("angle " + angle + " Distance to ship " + distanceFromShip);

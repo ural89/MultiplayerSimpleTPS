@@ -22,21 +22,26 @@ public class PlayerInputHandler : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            // Calculate the look direction using Quaternion.LookRotation
-            Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-            var normDirection = (targetPosition - transform.position).normalized;
-            lookDirectionInput = new Vector2(normDirection.x, normDirection.z);
-
-
-            // Smoothly rotate towards the look direction
-            Quaternion targetRotation = Quaternion.LookRotation(lookDirectionInput);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5);
+            
+            // LookAtHitDirection(hit);
         }
 
 
         if (Input.GetMouseButtonDown(0))
             isFireButtonPressed = true;
     }
+
+    private void LookAtHitDirection(RaycastHit hit)
+    {
+        Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+        var normDirection = (targetPosition - transform.position).normalized;
+        lookDirectionInput = new Vector2(normDirection.x, normDirection.z);
+
+
+        Quaternion targetRotation = Quaternion.LookRotation(lookDirectionInput);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5);
+    }
+
     public NetworkInputData GetNetworkInputData()
     {
         var networkInputData = new NetworkInputData();
